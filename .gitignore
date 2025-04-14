@@ -1,5 +1,37 @@
+# Dependencias
 node_modules/
-.env
+
+# Builds
 dist/
 build/
+
+# Archivos de entorno
+.env
+
+# VSCode
+.vscode/
+
+# Archivos del sistema (Windows / macOS / Linux)
+Thumbs.db
+.DS_Store
+ehthumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# Archivos temporales de Windows
+AppData/
+*.tmp
+*.swp
+
+# Carpetas personales y del sistema
+*.bak
+*.old
+*.orig
+
+# Archivos generados por Git
+.git/
+.gitmodules
+.nvm/
 
