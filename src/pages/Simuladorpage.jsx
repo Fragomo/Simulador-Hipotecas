@@ -10,7 +10,7 @@ export default function Simuladorpage() {
 
     return (
         
-            <div className="container mx-auto p-4">
+            <div className="container mx-auto p-4 bg-sky-100">
                 <h1 className="text-2xl font-bold mb-4">Simulador de Préstamos e Hipotecas</h1>
                 <Formulariosimulacion setResultado={setResultado} />
                 {resultado &&<GraficoAmortizacion datos={resultado} setTabla={setTabla}/>}
