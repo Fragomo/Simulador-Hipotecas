@@ -1,11 +1,18 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 
-export default function GraficoAmortizacion({ datos }) {
+export default function GraficoAmortizacion({ datos, setTabla }) {
   const { capital, tasa, plazo, metodo } = datos;
   const tasaDecimal = parseFloat(tasa) / 100 / 12;
-  let saldoPendiente = parseFloat(capital);
-  let tablaAmortizacion = [];
+
+  const [tablaAmortizacion, setTablaAmortizacion] = useState([]);
+
+ 
+
+  useEffect(() => {
+    let saldoPendiente = parseFloat(capital);
+    let tabla = [];
 
   if (metodo === "frances") {
     const cuota = (capital * tasaDecimal) / (1 - Math.pow(1 + tasaDecimal, -plazo));
@@ -13,7 +20,7 @@ export default function GraficoAmortizacion({ datos }) {
       let interes = saldoPendiente * tasaDecimal;
       let capitalPagado = cuota - interes;
       saldoPendiente -= capitalPagado;
-      tablaAmortizacion.push({ mes, cuota, interes, capitalPagado, saldoPendiente });
+      tabla.push({ mes, cuota, interes, capitalPagado, saldoPendiente });
     }
   } else if (metodo === "aleman") {
     let cuotaCapital = capital / plazo;
@@ -21,9 +28,13 @@ export default function GraficoAmortizacion({ datos }) {
       let interes = saldoPendiente * tasaDecimal;
       let cuota = cuotaCapital + interes;
       saldoPendiente -= cuotaCapital;
-      tablaAmortizacion.push({ mes, cuota, interes, capitalPagado: cuotaCapital, saldoPendiente });
+      tabla.push({ mes, cuota, interes, capitalPagado: cuotaCapital, saldoPendiente });
     }
   }
+
+  setTabla(tabla); // ✅ Aquí es válido
+  setTablaAmortizacion (tabla); // Para mostrarla en el gráfico
+}, [capital, tasa, plazo, metodo, setTabla]);
 
   return (
     <div className="mt-5 p-4 bg-white shadow-md rounded-md">
@@ -52,4 +63,5 @@ GraficoAmortizacion.propTypes = {
     plazo: PropTypes.number.isRequired,
     metodo: PropTypes.oneOf(["frances", "aleman"]).isRequired,
   }).isRequired,
+  setTabla: PropTypes.func.isRequired,
 };
