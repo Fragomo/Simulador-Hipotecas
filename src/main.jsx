@@ -7,7 +7,7 @@ import { AuthProvider } from "./context/AuthContext"; // Si usas autenticación
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      <App />
+      <App/>
     </AuthProvider>
   </StrictMode>
 );

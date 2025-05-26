@@ -22,14 +22,14 @@ export const registrarUsuario = async (req, res) => {
     const passwordHasheado = await bcrypt.hash(password, salt);
 
     // Crear usuario
-    const usuario = await Usuario.create({
+    await Usuario.create({
       nombre,
       email,
       password: passwordHasheado,
     });
 
     res.status(201).json({ mensaje: "Usuario registrado con éxito" });
-  } catch (error) {
+  } catch {
     res.status(500).json({ error: "Error en el servidor" });
   }
 };
@@ -56,7 +56,8 @@ export const loginUsuario = async (req, res) => {
     }
 
     // Generar token JWT
-    const token = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, {
+    const jwtSecret = "your_default_jwt_secret"; // Reemplaza esto con una variable de entorno segura en producción
+    const token = jwt.sign({ id: usuario.id }, jwtSecret, {
       expiresIn: "1h",
     });
 
@@ -64,7 +65,7 @@ export const loginUsuario = async (req, res) => {
       token,
       usuario: { id: usuario.id, nombre: usuario.nombre, email: usuario.email },
     });
-  } catch (error) {
+  } catch  {
     res.status(500).json({ error: "Error en el servidor" });
   }
 };
@@ -80,10 +81,11 @@ export const verificarToken = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const jwtSecret = "your_default_jwt_secret"; // Reemplaza esto con una variable de entorno segura en producción
+    const decoded = jwt.verify(token, jwtSecret);
     req.usuarioId = decoded.id;
     next();
-  } catch (error) {
+  } catch {
     res.status(400).json({ error: "Token inválido" });
   }
 };
