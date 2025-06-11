@@ -15,7 +15,7 @@ export default function Formulariosimulacion({ setResultado }) {
     };
    
     return (
-       <form onSubmit={calcularCuota} className="bg-white p-4 shadow-md rounded-md">
+       <form onSubmit={calcularCuota} className="bg-white p-4 shadow-md rounded-md w-1/2 ">
       <label className="block">Capital:</label>
       <input type="number" value={capital} onChange={(e) => setCapital(e.target.value)} className="border p-2 w-full" required />
 
